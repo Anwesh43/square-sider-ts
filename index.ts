@@ -202,3 +202,26 @@ class SquareSider {
         this.curr.startUpdating(cb)
     }
 }
+
+class Renderer {
+
+    ss : SquareSider = new SquareSider()
+    animator : Animator = new Animator()
+
+    render(context : CanvasRenderingContext2D) {
+        this.ss.draw(context)
+    }
+
+    handleTap(cb : Function) {
+        this.ss.startUpdating(() => {
+            this.animator.start(() => {
+                cb()
+                this.ss.update(() => {
+                    this.animator.stop()
+                    cb()
+                })
+            
+            })
+        })
+    }
+}
